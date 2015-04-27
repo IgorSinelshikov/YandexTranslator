@@ -51,15 +51,28 @@
 				async: false,
 				dataType: 'JSON',
 				data: data,
-				success: function onSucess(data) {
-					translatedText = data.text;
-				},
-				error: function onError(jqXHR, textStatus, errorThrown) {
-					throw new Error(errorThrown);
-				}
+				success: onSucess,
+				error: onError
 			});
 			
-			return translatedText.join(' ');
+			/**
+			 * Actions when server responses successfully.
+			 * @param {Object} data Server response object
+			 */
+			function onSucess(data) {
+				translatedText = data.text;
+			}
+			
+			/**
+			 * Actions when server responses with error.
+			 */
+			function onError() {
+				throw new Error('Yandex translator error: error while getting response from yandex translation server.');
+			}
+			
+			translatedText = translatedText.join(' ');
+			
+			return translatedText;
 		}
 		
 		return {
