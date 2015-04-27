@@ -25,8 +25,9 @@ RU
   
   Для инициализации:
   
+  ```javascript
   var translator = new YandexTranslator([ключ]);
-  
+  ```
 
 3. API
 
