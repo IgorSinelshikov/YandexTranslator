@@ -11,10 +11,11 @@ RU
   
   https://www.jquery.com/
   
-  Далее загрузить YandexTranslator и подключить его:
+  Далее загрузить YandexTranslator и подключить его.
   
+```javascript
   <script src="[путь к файлу/]yandexTranslator.js"></script>
-
+```
   
 ## 2. Инициализация
  
@@ -25,9 +26,9 @@ RU
   
   Для инициализации:
   
-  ```javascript
+```javascript
   var translator = new YandexTranslator([ключ]);
-  ```
+```
 
 ## 3. API
 
