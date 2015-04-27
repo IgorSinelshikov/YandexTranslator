@@ -17,6 +17,11 @@
 	
 	YandexTranslator.prototype = (function () {
 		
+		/**
+		 * Returns translation directions.
+		 * @param   {String} ui Language code
+		 * @returns {Array} Translation directions
+		 */
 		function getLangs(ui) {
 			var url = 'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
 				data = {
@@ -62,7 +67,8 @@
 		
 		/**
 		 * Detects language of specified text.
-		 * @param {String} text Text to detect language of
+		 * @param {String} text Text to detect language 
+		 * @returns {String} Text language
 		 */
 		function detect(text) {
 			text = text || ' ';
