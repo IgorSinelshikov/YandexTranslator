@@ -3,7 +3,7 @@
 
 RU
 
-1. Начало работы
+## 1. Начало работы
 
 
   Для начала необходимо подключить библиотеку jQuery:
@@ -16,7 +16,7 @@ RU
   <script src="[путь к файлу/]yandexTranslator.js"></script>
 
   
-2. Инициализация
+## 2. Инициализация
  
 
   Для начала необходимо получить ключ API Яндекс Переводчика
@@ -29,25 +29,25 @@ RU
   var translator = new YandexTranslator([ключ]);
   ```
 
-3. API
+## 3. API
 
 
-  translate(Object config)
+ > translate(Object config)
   
     Переводит текст.
     
     Поля объекта config:
     
-      text - Текст для перевода
+- text - Текст для перевода
       
-      fromLang - Язык текст
+- fromLang - Язык текст
       
-      toLang - Язык, на который нужно перевести
+- toLang - Язык, на который нужно перевести
       
     Возвращает строку с переведенным текстом.
       
 
-4. Пример
+## 4. Пример
 
 ```javascript
   var translator = new YandexTranslator('svcsdjvbsdb23jb23rbjscjsc.dvdjvnhfgb3h2jwd');
