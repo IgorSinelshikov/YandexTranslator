@@ -27,6 +27,16 @@
 				throw new Error('Yandex translator error: config object must be defined.');
 			}
 			
+			if (!config.fromLang) {
+				throw new Error('Yandex translator error: config.fromLang must be defined.');
+			}
+			
+			if (!config.toLang) {
+				throw new Error('Yandex translator error: config.toLang must be defined.');
+			}
+			
+			config.text = config.text || '';
+			
 			var translatedText = [],
 				lang = config.fromLang + "-" + config.toLang,
 				data = {
@@ -50,7 +60,6 @@
 			});
 			
 			return translatedText.join(' ');
-			
 		}
 		
 		return {
