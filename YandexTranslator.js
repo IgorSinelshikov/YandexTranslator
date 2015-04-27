@@ -23,7 +23,11 @@
 		 * @returns {String} Translated text
 		 */
 		function translate(config) {
-			var translatedText = '',
+			if (!config) {
+				throw new Error('Yandex translator error: config object must be defined.');
+			}
+			
+			var translatedText = [],
 				lang = config.fromLang + "-" + config.toLang,
 				data = {
 					key: this.getKey(),
@@ -34,17 +38,19 @@
 			$.ajax({
 				url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
 				type: 'POST',
-				dataType: 'json',
+				async: false,
+				dataType: 'JSON',
 				data: data,
-				success: function(data, status) {
+				success: function onSucess(data) {
 					translatedText = data.text;
 				},
-				error: function(jqXHR, textStatus, errorThrown) {
+				error: function onError(jqXHR, textStatus, errorThrown) {
 					throw new Error(errorThrown);
 				}
 			});
 			
-			return translatedText;
+			return translatedText.join(' ');
+			
 		}
 		
 		return {
