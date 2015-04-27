@@ -17,6 +17,95 @@
 	
 	YandexTranslator.prototype = (function () {
 		
+		function getLangs(ui) {
+			var url = 'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
+				data = {
+					key: this.getKey()
+				},
+				result;
+			
+			if (ui) {
+				data.ui = ui;	
+			}
+			
+			$.ajax({
+				url: url,
+				type: 'POST',
+				async: false,
+				dataType: 'JSON',
+				data: data,
+				success: onSuccess,
+				error: onError
+			});
+			
+			/**
+			 * Actions when server responses successfully.
+			 * @param {Object} data Server response object
+			 */			
+			function onSuccess(data) {
+				if (data.dirs) {
+					result = data.dirs;
+				} else {
+					throw new Error('Yandex translator error: unrecognized list of languages.');	
+				}
+			}
+			
+			/**
+			 * Actions when server responses with error.
+			 */
+			function onError() {
+				throw new Error('Yandex translator error: error while getting response from yandex translation server.');
+			}
+			
+			return result;
+		}
+		
+		/**
+		 * Detects language of specified text.
+		 * @param {String} text Text to detect language of
+		 */
+		function detect(text) {
+			text = text || ' ';
+			
+			var url = 'https://translate.yandex.net/api/v1.5/tr.json/detect',
+				data = {
+					key: this.getKey(),
+					text: text
+				},
+				result;
+			
+			$.ajax({
+				url: url,
+				type: 'POST',
+				async: false,
+				dataType: 'JSON',
+				data: data,
+				success: onSuccess,
+				error: onError
+			});
+			
+			/**
+			 * Actions when server responses successfully.
+			 * @param {Object} data Server response object
+			 */
+			function onSuccess(data) {
+				if (data.lang) {
+					result = data.lang;
+				} else {
+					throw new Error('Yandex translator error: unrecognized language.');	
+				}
+			}
+			
+			/**
+			 * Actions when server responses with error.
+			 */
+			function onError() {
+				throw new Error('Yandex translator error: error while getting response from yandex translation server.');
+			}
+			
+			return result;
+		}
+		
 		/**
 		 * Translates text with Yandex Translator.
 		 * @param   {Object} config 	Object of text to translate
@@ -27,18 +116,15 @@
 				throw new Error('Yandex translator error: config object must be defined.');
 			}
 			
-			if (!config.fromLang) {
-				throw new Error('Yandex translator error: config.fromLang must be defined.');
-			}
-			
 			if (!config.toLang) {
 				throw new Error('Yandex translator error: config.toLang must be defined.');
 			}
-			
+				
 			config.text = config.text || '';
 			
-			var translatedText = [],
-				lang = config.fromLang + "-" + config.toLang,
+			var url = 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+				result = [],
+				lang = (config.fromLang)?config.fromLang + "-" + config.toLang:config.toLang,
 				data = {
 					key: this.getKey(),
 					lang: lang,
@@ -46,12 +132,12 @@
 				};
 			
 			$.ajax({
-				url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+				url: url,
 				type: 'POST',
 				async: false,
 				dataType: 'JSON',
 				data: data,
-				success: onSucess,
+				success: onSuccess,
 				error: onError
 			});
 			
@@ -59,8 +145,12 @@
 			 * Actions when server responses successfully.
 			 * @param {Object} data Server response object
 			 */
-			function onSucess(data) {
-				translatedText = data.text;
+			function onSuccess(data) {
+				if (data.text) {
+					result = data.text;
+				} else {
+					throw new Error('Yandex translator error: unrecognized text.');	
+				}
 			}
 			
 			/**
@@ -70,14 +160,16 @@
 				throw new Error('Yandex translator error: error while getting response from yandex translation server.');
 			}
 			
-			translatedText = translatedText.join(' ');
+			result = result.join(' ');
 			
-			return translatedText;
+			return result;
 		}
 		
 		return {
 			constructor: YandexTranslator,
-			translate: translate
+			translate: translate,
+			detect: detect,
+			getLangs: getLangs
 		};
 	}());
 	
