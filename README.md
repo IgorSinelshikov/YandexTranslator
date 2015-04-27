@@ -48,7 +48,6 @@ RU
 
 4. Пример
 
-
 ```javascript
   var translator = new YandexTranslator('svcsdjvbsdb23jb23rbjscjsc.dvdjvnhfgb3h2jwd');
   alert(translator.translate({text: 'Hi', fromLang: 'en', toLang: 'ru'}));
